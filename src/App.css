@@ -1,0 +1,824 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #262626;
+  background: #f5f7fa;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+
+.app {
+  padding: 40px 24px 72px;
+  display: flex;
+  justify-content: center;
+}
+
+.app-inner {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Full-width items span both columns */
+.span-2 {
+  grid-column: span 2;
+}
+
+/* ── Section card ─────────────────────────────────────────────────────────── */
+
+.section {
+  background: #ffffff;
+  border: 1px solid #e8edf0;
+  border-radius: 6px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #262626;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8edf0;
+}
+
+/* ── Typography ───────────────────────────────────────────────────────────── */
+
+.body-text {
+  font-size: 14px;
+  color: #595959;
+}
+
+.muted {
+  color: #8c8c8c;
+}
+
+.hint {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* ── Info block (teaches / next steps) ───────────────────────────────────── */
+
+.info-block {
+  background: #f5f7fa;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.info-block.standalone {
+  background: #ffffff;
+  border: 1px solid #e8edf0;
+  border-radius: 6px;
+  padding: 24px;
+}
+
+.info-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bullet-list li {
+  font-size: 13px;
+  color: #595959;
+  padding-left: 18px;
+  position: relative;
+}
+
+.bullet-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #00cccc;
+  font-size: 12px;
+  top: 1px;
+}
+
+/* ── Counter ──────────────────────────────────────────────────────────────── */
+
+/* Fills remaining card height and centers number + buttons */
+.counter-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 8px 0;
+}
+
+.count-value {
+  font-size: 96px;
+  font-weight: 700;
+  color: #00a8a8;
+  line-height: 1;
+  letter-spacing: -3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.count-loading {
+  font-size: 64px;
+  color: #c8d8e0;
+  letter-spacing: 0;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-lg {
+  padding: 10px 28px;
+  font-size: 15px;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+
+.btn {
+  padding: 7px 18px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background: #00cccc;
+  color: #ffffff;
+  border-color: #00cccc;
+}
+
+.btn-ghost {
+  background: #ffffff;
+  color: #595959;
+  border-color: #d9d9d9;
+}
+
+.btn-ghost:hover {
+  border-color: #bfbfbf;
+}
+
+.btn-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* ── Settings form ────────────────────────────────────────────────────────── */
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #595959;
+}
+
+.field-input {
+  padding: 7px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #262626;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field-input:focus {
+  border-color: #00cccc;
+  box-shadow: 0 0 0 2px rgba(0, 204, 204, 0.12);
+}
+
+/* Live preview of saved settings */
+.settings-preview {
+  padding: 12px 16px;
+  background: #f0fefe;
+  border: 1px solid #b5f0f0;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #262626;
+}
+
+/* ── Platform API / Config Groups node visualization ──────────────────────── */
+
+.groups-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.groups-viz-panel {
+  width: 100%;
+  background: #0d1c26;
+  border-radius: 8px;
+  padding: 24px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.groups-viz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+/* Each worker group rendered as a server node card */
+.group-node {
+  background: #0f2535;
+  border: 1px solid rgba(0, 204, 204, 0.25);
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 130px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.group-node:hover {
+  border-color: rgba(0, 204, 204, 0.55);
+  box-shadow: 0 0 18px rgba(0, 204, 204, 0.12);
+}
+
+/* macOS-style traffic light dots */
+.group-node-dots {
+  display: flex;
+  gap: 5px;
+  align-self: flex-start;
+}
+
+.group-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red    { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green  { background: #28c840; }
+
+.group-node-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #00e0e0;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  text-align: center;
+  word-break: break-all;
+}
+
+.group-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.group-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #52c41a;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+.group-status-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #52c41a;
+}
+
+/* Animated flowing connector line between nodes */
+.group-connector {
+  width: 40px;
+  flex-shrink: 0;
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(0, 204, 204, 0.55) 0px,
+    rgba(0, 204, 204, 0.55) 5px,
+    transparent 5px,
+    transparent 10px
+  );
+  background-size: 20px 100%;
+  animation: connectorFlow 0.9s linear infinite;
+}
+
+@keyframes connectorFlow {
+  from { background-position: 0 0; }
+  to   { background-position: 20px 0; }
+}
+
+/* Amber note for graceful permission failures */
+.note-amber {
+  padding: 12px 16px;
+  background: #fffbe6;
+  border: 1px solid #ffe58f;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #595959;
+  line-height: 1.55;
+}
+
+/* ── Product section divider ──────────────────────────────────────────────── */
+
+.product-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 -4px;
+}
+
+.product-divider::before,
+.product-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e8edf0;
+}
+
+.product-divider-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c8c8c;
+  white-space: nowrap;
+}
+
+/* ── Inline query / code block ────────────────────────────────────────────── */
+
+.code-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #f5f5f5;
+  border: 1px solid #e8edf0;
+  border-radius: 4px;
+}
+
+.code-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8c8c8c;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.code-full {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 13px;
+  color: #262626;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* ── Viz Panel (Cribl Search animated chart) ──────────────────────────────── */
+
+.viz-panel {
+  background: #0d1c26;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.viz-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.viz-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #c8d8e4;
+  margin-bottom: 3px;
+}
+
+.viz-meta {
+  font-size: 11px;
+  color: #3a5a70;
+  font-family: 'SFMono-Regular', Consolas, monospace;
+}
+
+.viz-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #52c41a;
+  margin-top: 2px;
+}
+
+.viz-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #52c41a;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(82, 196, 26, 0.5); }
+  50%       { opacity: 0.7; box-shadow: 0 0 0 5px rgba(82, 196, 26, 0); }
+}
+
+.viz-body {
+  padding: 20px 20px 0;
+}
+
+.viz-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 160px;
+  position: relative;
+}
+
+/* Horizontal grid lines at 25 / 50 / 75% */
+.viz-chart::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent calc(25% - 1px),
+      rgba(255, 255, 255, 0.05) calc(25%),
+      rgba(255, 255, 255, 0.05) calc(25% + 1px),
+      transparent calc(25% + 2px)
+    );
+  pointer-events: none;
+}
+
+.viz-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 4px;
+}
+
+.viz-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: #00e0e0;
+  opacity: 0;
+  animation: vizValueAppear 0.25s ease forwards;
+}
+
+@keyframes vizValueAppear {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.viz-bar {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, #006e6e, #00e5e5);
+  box-shadow:
+    0 0 8px rgba(0, 229, 229, 0.4),
+    0 0 22px rgba(0, 229, 229, 0.1);
+  transform-origin: bottom center;
+  transform: scaleY(0);
+  animation: vizBarRise 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes vizBarRise {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+.viz-footer {
+  display: flex;
+  padding: 0 20px 14px;
+}
+
+.viz-xlabel {
+  flex: 1;
+  text-align: center;
+  font-size: 10px;
+  color: #2e4a5a;
+  padding-top: 7px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Search running indicator ─────────────────────────────────────────────── */
+
+.search-running {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #0d1c26;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #00cccc;
+}
+
+.search-pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00cccc;
+  flex-shrink: 0;
+  animation: pulseRing 1.2s ease-out infinite;
+}
+
+@keyframes pulseRing {
+  0%   { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(0, 204, 204, 0.65); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 9px rgba(0, 204, 204, 0); }
+  100% { transform: scale(0.85); }
+}
+
+/* Glow on the Run button */
+.btn-primary:hover:not(:disabled) {
+  opacity: 1;
+  box-shadow: 0 0 0 3px rgba(0, 204, 204, 0.25);
+}
+
+/* ── Weather widget ───────────────────────────────────────────────────────── */
+
+.weather-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #f0fefe;
+  border: 1px solid #b5f0f0;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.weather-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.weather-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.weather-city {
+  font-size: 13px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.weather-condition {
+  font-size: 13px;
+  color: #595959;
+}
+
+.weather-stats {
+  font-size: 14px;
+  font-weight: 500;
+  color: #262626;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.weather-sep {
+  color: #d9d9d9;
+}
+
+/* ── Pipeline complexity panel ────────────────────────────────────────────── */
+
+.pipe-table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e8edf0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.pipe-thead {
+  display: grid;
+  grid-template-columns: 32px 1fr 180px;
+  padding: 8px 14px;
+  background: #f5f7fa;
+  border-bottom: 1px solid #e8edf0;
+  gap: 12px;
+}
+
+.pipe-th {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8c8c8c;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pipe-th-right {
+  text-align: right;
+}
+
+.pipe-row {
+  display: grid;
+  grid-template-columns: 32px 1fr 180px;
+  padding: 10px 14px;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px solid #e8edf0;
+  transition: background 0.1s;
+}
+
+.pipe-row:last-child {
+  border-bottom: none;
+}
+
+.pipe-row:hover {
+  background: #f9fbfc;
+}
+
+.pipe-rank-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #eef0f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #595959;
+}
+
+.pipe-rank-first {
+  background: #e0fafa;
+  color: #00a0a0;
+}
+
+.pipe-id {
+  font-size: 13px;
+  color: #262626;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pipe-count-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pipe-mini-bar-track {
+  flex: 1;
+  height: 6px;
+  background: #e8edf0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.pipe-mini-bar {
+  height: 100%;
+  background: linear-gradient(to right, #00a8a8, #00e0e0);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.pipe-count-num {
+  font-size: 13px;
+  font-weight: 600;
+  color: #262626;
+  width: 24px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Loading skeleton with shimmer animation */
+.pipe-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pipe-skel-row {
+  height: 38px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f2f4 25%, #e6e9eb 50%, #f0f2f4 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.numbered-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  counter-reset: steps;
+}
+
+.numbered-list li {
+  font-size: 13px;
+  color: #595959;
+  padding-left: 22px;
+  position: relative;
+  counter-increment: steps;
+}
+
+.numbered-list li::before {
+  content: counter(steps);
+  position: absolute;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  background: #00cccc;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 600;
+  top: 2px;
+}
+
+/* ── External links ───────────────────────────────────────────────────────── */
+
+a {
+  color: #00a8a8;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ── Inline code ──────────────────────────────────────────────────────────── */
+
+code {
+  background: #f5f5f5;
+  border: 1px solid #e8edf0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12px;
+  color: #595959;
+}

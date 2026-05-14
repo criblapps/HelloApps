@@ -1,0 +1,17 @@
+# External API declaration. Declare every domain your app needs to reach.
+# Admins see this file at install time — be precise about paths and intent.
+#
+# How it works:
+#   1. Declare a domain here.
+#   2. Call fetch() with the full external URL anywhere in your app code.
+#   3. The platform rewrites the URL to route through your app's proxy endpoint.
+#      Auth headers are NOT forwarded from the browser — use `headers.inject`
+#      to attach any secrets stored in the KV store.
+#
+# Open-Meteo is a free public weather API that requires no API key.
+# It is used in the Weather Widget section as a minimal external-API example.
+
+api.open-meteo.com:
+  paths:
+    allowlist:
+      - /v1/forecast
