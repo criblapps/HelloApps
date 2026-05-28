@@ -1,104 +1,90 @@
-# Hello Cribl App
+# HelloApps
 
-A reference app for developers learning the Cribl App Platform.
-
-This intentionally small app demonstrates the core concepts you need to build real Cribl Apps:
-- How an app runs inside Cribl (sandboxed iframe, platform globals)
-- How to build interactive UI with React
-- How to persist state with the platform KV store
-- How to call a read-only Cribl REST API gracefully
+A packaged Cribl App ready to install into a Cribl instance. This repository contains the **built, distributable form** of the app — the manifest, platform configuration, and prebuilt static assets — not the source code.
 
 ---
 
-## Where to start reading
-
-| File | What it shows |
-|---|---|
-| `src/App.tsx` | The full app — four sections, each teaching one concept |
-| `src/kv.ts` | KV store helpers: `kvGet`, `kvSet`, `kvDelete` |
-| `src/App.css` | Card-based layout and minimal styles |
-| `AGENTS.md` | Platform documentation: globals, KV API, fetch proxy, routing |
-
----
-
-## How KV persistence works
-
-The Cribl platform provides a scoped key-value store for each app. Reads and writes go through `fetch()` against `window.CRIBL_API_URL` — the platform proxy intercepts these calls and injects auth headers automatically. Your app never handles tokens.
+## What's in this package
 
 ```
-// Read a value
-GET  ${CRIBL_API_URL}/kvstore/<key>
-
-// Write a value
-PUT  ${CRIBL_API_URL}/kvstore/<key>    body: JSON
-
-// Delete a value
-DELETE ${CRIBL_API_URL}/kvstore/<key>
+package.json              — Cribl app manifest
+default/
+  proxies.yml             — External API allowlist
+static/
+  index.html              — App entry point loaded by the Cribl platform
+  favicon.svg             — App favicon
+  icons.svg               — Icon sprite sheet
+  assets/
+    index-CoKUWqhm.js     — Bundled JavaScript (React app)
+    index-C5WKzbFa.css    — Bundled styles
 ```
 
-This app stores two keys:
+### `package.json`
 
-| Key | Type | Used by |
-|---|---|---|
-| `counter` | `number` | Interactive counter (Section 2) |
-| `settings` | `{ greeting, developerName, favoriteProduct }` | App settings (Section 3) |
+The Cribl app manifest. The `cribl` block identifies this as an installable app and pins the create-app script version it was built against.
 
-KV calls in `kv.ts` wrap each operation in a try/catch. If the call fails (e.g. in local dev mode where `CRIBL_API_URL` is not set), the error is swallowed and the app continues working with in-memory state.
+```1:10:package.json
+{
+  "name": "helloapps",
+  "version": "1.0.1",
+  "displayName": "HelloApps",
+  "author": "Cribl Apps Team",
+  "cribl": {
+    "type": "app",
+    "createAppScriptVersion": "0.1.0"
+  }
+}
+```
+
+### `default/proxies.yml`
+
+Declares every external domain the app is allowed to reach. Admins review this file at install time, so each entry should be precise about paths and intent.
+
+This app declares one external domain — the free, no-auth Open-Meteo weather API — scoped to a single allowlisted path:
+
+```14:17:default/proxies.yml
+api.open-meteo.com:
+  paths:
+    allowlist:
+      - /v1/forecast
+```
+
+At runtime, the platform rewrites `fetch()` calls to external URLs so they route through the app's proxy endpoint. The browser never forwards auth headers directly; use `headers.inject` in this file to attach secrets stored in the KV store when an API requires authentication.
+
+### `static/index.html`
+
+The HTML document the Cribl platform loads inside the app's sandboxed iframe. It sets a development app id, mounts a `#root` element, and pulls in the hashed JS and CSS bundles from `static/assets/`.
+
+### `static/assets/`
+
+The compiled React application:
+- `index-CoKUWqhm.js` — the full app bundle (UI, KV helpers, weather widget, REST API calls)
+- `index-C5WKzbFa.css` — bundled styles for the card-based layout
+
+These are output artifacts. Filenames are content-hashed and change every time the app is rebuilt.
+
+### `static/favicon.svg` and `static/icons.svg`
+
+Image assets served alongside the app — the favicon shown in browser tabs, and an SVG icon sprite referenced by the UI.
 
 ---
 
-## Optional platform API example
+## Installing this app
 
-Section 4 calls `GET ${CRIBL_API_URL}/master/groups` to list config group IDs. This is a read-only, zero-input call that demonstrates how to use the Cribl REST API from an app.
-
-**This call is gated carefully:**
-- It checks that `window.CRIBL_API_URL` is defined before attempting the fetch
-- If the response is not `ok` (e.g. 403 Forbidden), it falls through to a friendly amber note
-- The note tells the user the rest of the app still works — because it does
-- There are no retries
-
----
-
-## Designing for permission variance
-
-Not all Cribl users have the same role. An app that hard-fails when a low-privilege user opens it is not a good app. Follow these patterns:
-
-1. **Gate optional API calls** — check `CRIBL_API_URL` is set, then check `res.ok` before using the response
-2. **Separate required from optional** — KV reads/writes for core app state are low-privilege; surfacing admin data is optional
-3. **Show a human note, not an error state** — amber info box instead of a red error
-4. **Never block the whole page** — if one section can't load, the others must keep working
-
----
-
-## Running locally
+Package this directory into a `.tgz` and upload it to your Cribl instance under **Apps**:
 
 ```bash
-npm install
-npm run dev
+tar -czf helloapps-1.0.1.tgz package.json default static
 ```
 
-In local dev mode, `window.CRIBL_API_URL` is not set, so KV calls silently no-op and all state is in-memory only. The UI is still fully interactive.
-
-To test KV persistence and the platform API section, install the app into a running Cribl instance:
-
-```bash
-npm run package          # increments patch version, builds, creates .tgz
-npm run package -- --minor   # increment minor version instead
-```
-
-Then upload the `.tgz` to your Cribl instance under **Apps**.
+Then open your Cribl UI → **Apps** → **Install App** and upload the resulting tarball.
 
 ---
 
-## Project layout
+## What the app does
 
-```
-src/
-  App.tsx       — single-screen app (start here)
-  App.css       — styles
-  kv.ts         — KV store helpers
-  main.tsx      — React entry point (unchanged from scaffold)
-config/
-  proxies.yml   — external domain allowlist (empty — this app has no external calls)
-AGENTS.md       — platform developer documentation
-```
+Once installed, HelloApps demonstrates the core building blocks of the Cribl App Platform:
+- Running inside a sandboxed iframe with platform globals (`window.CRIBL_API_URL`, `window.CRIBL_APP_ID`)
+- Persisting state via the platform KV store (`GET`/`PUT`/`DELETE ${CRIBL_API_URL}/kvstore/<key>`)
+- Calling a read-only Cribl REST API and degrading gracefully when the user lacks permission
+- Calling an allowlisted external API (Open-Meteo) through the platform proxy
